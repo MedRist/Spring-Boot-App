@@ -1,0 +1,7 @@
+package org.bank.me.doa;
+
+import org.bank.me.entities.Client;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ClientRepository extends JpaRepository<Client, Long> {
+}
