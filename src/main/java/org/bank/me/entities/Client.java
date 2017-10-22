@@ -1,5 +1,8 @@
 package org.bank.me.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.*;
@@ -37,11 +40,12 @@ public class Client implements Serializable{
         this.nomClient = nomClient;
     }
 
-
+    @JsonIgnore
     public Collection<Compte> getComptes() {
         return comptes;
     }
 
+    @JsonSetter
     public void setComptes(Collection<Compte> comptes) {
         this.comptes = comptes;
     }

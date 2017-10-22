@@ -15,7 +15,7 @@ public class CompteRestService {
     public Compte saveCompte(@RequestBody Compte c) {
         return compteMetier.saveCompte(c);
     }
-    @RequestMapping(value = "/comptes/{code}", method = RequestMethod.GET)
+    @RequestMapping(value = "/comptes" + "/{code}", method = RequestMethod.GET)
     public Compte getCompte(@PathVariable String code) {
         return compteMetier.getCompte(code);
     }

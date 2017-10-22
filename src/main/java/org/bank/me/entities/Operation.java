@@ -1,6 +1,12 @@
 package org.bank.me.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.aspectj.apache.bcel.generic.RET;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -8,6 +14,17 @@ import java.util.Date;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(length = 1)
+@JsonTypeInfo(
+        use =JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(name = "V", value = Versment.class),
+        @JsonSubTypes.Type(name = "R", value = Retrait.class)
+}
+
+)
 public class Operation implements Serializable{
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long numerpOperation;
@@ -61,10 +78,11 @@ public class Operation implements Serializable{
         this.compte = compte;
     }
 
+    @JsonIgnore
     public Employe getEmploye() {
         return employe;
     }
-
+     @JsonSetter
     public void setEmploye(Employe employe) {
         this.employe = employe;
     }

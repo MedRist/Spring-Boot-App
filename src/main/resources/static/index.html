@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bank Of Three Borthers </title>
+    <link rel="stylesheet" href="css/myStyle.css">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css">
+
+</head>
+<body ng-app="myBankApp" ng-controller="myBankController">
+ <div class="col-md-6 col-sm-12 col-xs-12">
+     <div class="panel panel-info spacer">
+         <div class="panel-heading"> Compte </div>
+         <div class="panel-body">
+             <form>
+                 <div class="form-group">
+                     <label>Code Compte</label>
+                     <input type="text" ng-model="CodeCompte">
+                     <button  ng-click="chargerCompte()" >charger</button>
+
+                 </div>
+             </form>
+         </div>
+
+     </div>
+ </div>
+
+ <div ng-if="compte">
+     <div class="col-md-6 col-sm-12 col-xs-12">
+         <div class="panel panel-info spacer">
+             <div class="panel-heading"> Etat du compte</div>
+             <div class="panel-body">
+                 <div class="form-group">
+                     <label>Le Solde</label>
+                     <label>{{ compte.solde }}</label>
+                 </div>
+                 <div class="form-group">
+                     <label>La date de creation</label>
+                     <label> {{compte.dateCreation | date:'M-d-yyyy  h:m:ss'}}</label>
+                 </div>
+                 <div class="form-group" ng-if="compte.decouvert">
+                     <label>Le decouvert</label>
+                     <label>{{ compte.decouvert }}</label>
+                 </div>
+                 <div class="form-group" ng-if="compte.taux">
+                     <label>Le Taux</label>
+                     <label>{{ compte.taux }}</label>
+                 </div>
+             </div>
+         </div>
+
+
+     </div>
+     <div class="col-md-6 col-sm-12 col-xs-12">
+         <div class="panel panel-info spacer">
+             <div class="panel-heading">Operations</div>
+             <div class="panel-body">
+                 <form>
+                     <div class="form-group">
+                         <label>Versement</label>
+                         <input type="radio" ng-model="operation.type" value="versement">
+
+                         <label>Retrait</label>
+                         <input type="radio" ng-model="operation.type" value="retrait">
+
+                         <label>Virement</label>
+                         <input type="radio" ng-model="operation.type" value="virement">
+                     </div>
+                     <div class="form-group">
+                         <span>
+                              <label>Montant:</label>
+                         <input type="number" ng-model="operation.montant">
+                         </span>
+
+                         <span ng-if="operation.type == 'virement' ">
+                                 <label>Code Compte:</label>
+                         <input type="text" ng-model="operation.codeCompte2">
+                         </span>
+
+
+                     </div>
+                     <button ng-click="saveOperation()" class="btn btn-primary">Valider</button>
+                 </form>
+             </div>
+         </div>
+
+     </div>
+
+
+     <div class="col-md-6 col-sm-12 col-xs-12">
+       <div class="panel panel-info spacer" >
+           <div class="panel-heading">Operations</div>
+           <div class="panel-body" >
+              <table class="table table-striped">
+                  <thead>
+                  <tr>
+                      <th>Num</th> <th>Date</th> <th>Montant</th> <th>Type</th>
+                  </tr>
+                  </thead>
+                     <tr ng-repeat=" op in pageOperations.operations">
+                         <td>{{op.numerpOperation}}</td>
+                         <td>{{op.dateOperation | date:'M-d-yyyy  h:m:ss'}}</td>
+                         <td>{{op.montant}}</td>
+                         <td>{{op.type}}</td>
+                     </tr>
+                  <tbody>
+
+                  </tbody>
+              </table>
+           </div>
+           <div class="container spacer">
+              <ul class="nav nav-pills">
+                  <li class="clickable" ng-class="{active:$index==pageCourante }" ng-repeat="p in pages track by $index" >
+                      <a ng-click="goToPage($index)">{{$index}}</a></li>
+              </ul>
+           </div>
+       </div>
+     </div>
+
+
+
+
+ </div>
+
+     <div ng-if="messagError != null" class=" col-md-6 col-sm-12 col-xs-12 spacer alert alert-danger">
+         <strong>Error!</strong> {{ messagError }}
+     </div>
+
+
+
+ <script type="text/javascript" src="angular/angular.min.js"></script>
+ <script src="js/myApp.js"></script>
+
+</body>
+</html>
